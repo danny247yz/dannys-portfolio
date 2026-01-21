@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danny Pay Pro | Elite Fintech</title>
+    <style>
+        :root {
+            --opay-green: #00d084;
+            --primary: #6366f1;
+            --dark: #0f172a;
+            --gray: #94a3b8;
+            --card-bg: #ffffff;
+            --road-color: #2c3e50;
+        }
+
+        * { box-sizing: border-box; font-family: 'Figtree', sans-serif; margin: 0; padding: 0; }
+        body { background: #f4f7fa; color: var(--dark); overflow-x: hidden; }
+
+        /* Splash Screen */
+        #splash {
+            position: fixed; inset: 0; background: var(--dark); z-index: 5000;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            transition: opacity 0.8s ease;
+        }
+        .logo-anim {
+            width: 80px; height: 80px; background: var(--opay-green); border-radius: 20px;
+            animation: pulse 1.5s infinite ease-in-out;
+        }
+        @keyframes pulse { 0% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.2); opacity: 0.7; } 100% { transform: scale(1); opacity: 1; } }
+
+        /* Navigation */
+        nav { background: white; padding: 1rem; display: flex; justify-content: space-around; box-shadow: 0 4px 12px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 1000; }
+        nav button { border: none; background: none; padding: 10px 12px; cursor: pointer; font-weight: 700; color: var(--gray); border-radius: 12px; transition: 0.3s; font-size: 0.85rem; }
+        nav button.active { color: var(--opay-green); background: #e6fbf3; }
+
+        .container { max-width: 450px; margin: 0 auto; padding: 1rem 1rem 100px; }
+        .card { background: var(--card-bg); padding: 1.5rem; border-radius: 24px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05); margin-bottom: 1.2rem; }
+        
+        .section { display: none; animation: fadeIn 0.3s ease; }
+        .section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Wallet */
+        .balance-card { background: var(--dark); color: white; border-radius: 28px; padding: 30px; text-align: center; margin-bottom: 20px; position: relative; }
+        .balance-card h1 { font-size: 2.2rem; margin: 10px 0; color: var(--opay-green); }
+
+        /* Insight Bar */
+        .insight-bar { display: flex; align-items: center; gap: 10px; background: #f8fafc; padding: 12px; border-radius: 15px; margin-top: 10px; }
+        .chart-circle { width: 40px; height: 40px; border-radius: 50%; border: 4px solid #eee; border-top-color: var(--opay-green); display: flex; align-items: center; justify-content: center; font-size: 0.6rem; font-weight: bold; }
+
+        /* Forms */
+        label { font-size: 0.7rem; font-weight: 800; color: var(--gray); display: block; margin: 12px 0 5px; text-transform: uppercase; }
+        input, select { width: 100%; padding: 14px; border: 1px solid #e2e8f0; border-radius: 14px; background: #f8fafc; font-size: 1rem; outline: none; }
+        
+        .search-results { background: white; border: 1px solid #eee; border-radius: 12px; max-height: 150px; overflow-y: auto; display: none; position: absolute; width: 100%; z-index: 50; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        .search-item { padding: 12px; cursor: pointer; border-bottom: 1px solid #f9f9f9; font-size: 0.9rem; }
+
+        .plan-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+        .plan-btn { border: 1px solid #e2e8f0; padding: 12px; border-radius: 15px; text-align: center; cursor: pointer; transition: 0.2s; background: white; position: relative; }
+        .plan-btn.selected { border-color: var(--opay-green); background: #f0fff4; box-shadow: 0 0 0 2px var(--opay-green); }
+        .discount-tag { position: absolute; top: -5px; right: -5px; background: #ff4d4f; color: white; font-size: 0.6rem; padding: 2px 6px; border-radius: 10px; }
+
+        .btn { width: 100%; padding: 16px; border: none; border-radius: 18px; font-weight: 700; cursor: pointer; font-size: 1rem; transition: 0.2s; }
+        .btn-green { background: var(--opay-green); color: white; }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-outline { background: transparent; border: 2px solid #eee; color: var(--gray); font-size: 0.8rem; padding: 10px; }
+        .btn-disabled { background: #e2e8f0; color: #94a3b8; cursor: not-allowed; }
+
+        /* Game */
+        canvas { background: var(--road-color); display: block; margin: 0 auto; border-radius: 24px; width: 100%; border: 4px solid #1a252f; }
+        .game-ctrls { display: flex; gap: 10px; margin-top: 15px; }
+        .ctrl-btn { flex: 1; padding: 20px; background: #fff; border: 2px solid #ddd; border-radius: 15px; font-size: 1.5rem; cursor: pointer; box-shadow: 0 4px 0 #ddd; }
+        .ctrl-btn:active { transform: translateY(4px); box-shadow: none; }
+
+        /* Receipt */
+        #receipt-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 2000; align-items: center; justify-content: center; padding: 20px; }
+        .receipt { background: white; width: 100%; max-width: 360px; border-radius: 30px; padding: 30px; animation: pop 0.3s ease; position: relative; overflow: hidden; }
+        .receipt::before { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 6px; background: var(--opay-green); }
+        .r-row { display: flex; justify-content: space-between; margin-bottom: 12px; font-size: 0.85rem; border-bottom: 1px dashed #f1f5f9; padding-bottom: 8px; }
+        .r-label { color: var(--gray); font-weight: 500; }
+        .r-value { color: var(--dark); font-weight: 700; text-align: right; }
+    </style>
+</head>
+<body>
+
+<div id="splash">
+    <div class="logo-anim"></div>
+    <h2 style="color:white; margin-top:20px; letter-spacing: 2px;">DANNY PAY</h2>
+    <p style="color:var(--gray); font-size:0.8rem; margin-top:10px;">Fast. Secure. Reliable.</p>
+</div>
+
+<nav>
+    <button onclick="showSection('home')" id="tab-home" class="active">Home</button>
+    <button onclick="showSection('bills')" id="tab-bills">Bills</button>
+    <button onclick="showSection('game')" id="tab-game">Play & Shop</button>
+</nav>
+
+<div class="container">
+    
+    <div id="home" class="section active">
+        <div class="card" style="padding: 12px;">
+            <p style="font-size: 0.7rem; font-weight: bold; color: var(--gray);">WEEKLY INSIGHTS</p>
+            <div class="insight-bar">
+                <div class="chart-circle" id="data-chart-val">65%</div>
+                <div>
+                    <p style="font-size: 0.8rem; font-weight: bold;">Data Usage</p>
+                    <p style="font-size: 0.7rem; color: var(--gray);">You spent ₦<span id="weekly-spend">0</span> this week</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="balance-card">
+            <p style="opacity:0.6; font-size: 0.8rem;">Available Balance</p>
+            <h1 id="bal">₦5,000.00</h1>
+            <button class="btn btn-outline" style="color:white; border-color: rgba(255,255,255,0.2)" onclick="openAddMoney()">+ Add Money (Limit ₦1500)</button>
+        </div>
+
+        <div id="rebuy-section" class="card" style="display: none; border-left: 5px solid var(--opay-green);">
+            <p style="font-size: 0.7rem; font-weight: bold; color: var(--opay-green);">REBUY LAST PLAN</p>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 5px;">
+                <span id="last-plan-text" style="font-size: 0.85rem; font-weight: bold;">-</span>
+                <button class="btn btn-green" style="width: auto; padding: 8px 15px; font-size: 0.7rem;" onclick="rebuyLast()">Rebuy</button>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>Transfer</h3>
+            <label>Recipient Name</label>
+            <input type="text" id="target-name" placeholder="John Doe">
+            <label>Bank Name</label>
+            <div style="position: relative;">
+                <input type="text" id="bank-input" placeholder="Search Bank..." onkeyup="filterBanks()">
+                <div id="bank-results" class="search-results"></div>
+            </div>
+            <label>Account Number</label>
+            <input type="number" id="acc-number" placeholder="0123456789">
+            <label>Amount (₦)</label>
+            <input type="number" id="trf-amount" placeholder="0.00">
+            <button class="btn btn-green" style="margin-top:20px;" onclick="confirmTransaction('Transfer')">Send Money</button>
+        </div>
+
+        <div id="recent-receipt-card" class="card" style="display:none; border-top: 4px solid var(--opay-green);">
+            <p style="font-size: 0.7rem; font-weight: bold; color: var(--gray); margin-bottom: 15px;">LAST TRANSACTION DATA</p>
+            <div id="home-receipt-content"></div>
+        </div>
+    </div>
+
+    <div id="bills" class="section">
+        <div class="card">
+            <h3>Buy Airtime & Data</h3>
+            <label>Transaction Type</label>
+            <select id="bill-type" onchange="toggleBillType()">
+                <option value="Data">Data Bundle</option>
+                <option value="Airtime">Airtime (Discounted)</option>
+            </select>
+            
+            <label>Network</label>
+            <select id="network">
+                <option>MTN</option>
+                <option>Airtel</option>
+                <option>GLO</option>
+                <option>9Mobile</option>
+            </select>
+
+            <label>Phone Number</label>
+            <input type="number" id="phone-number" placeholder="08012345678">
+
+            <div id="data-plan-container">
+                <label>Choose Data Plan</label>
+                <div class="plan-grid">
+                    <div class="plan-btn" onclick="selectPlan(this, 300, '1GB (Daily)', 300)"><b>1GB</b><br>₦300</div>
+                    <div class="plan-btn" onclick="selectPlan(this, 600, '2.5GB (2nd Day)', 600)"><b>2.5GB</b><br>₦600</div>
+                    <div class="plan-btn" onclick="selectPlan(this, 1200, '5GB (Weekly)', 1200)"><b>5GB</b><br>₦1,200</div>
+                    <div class="plan-btn" onclick="selectPlan(this, 3500, '20GB (Monthly)', 3500)"><b>20GB</b><br>₦3,500</div>
+                </div>
+            </div>
+
+            <div id="airtime-container" style="display: none;">
+                <label>Choose Airtime (Discount applied)</label>
+                <div class="plan-grid">
+                    <div class="plan-btn" onclick="selectPlan(this, 100, '₦100 Airtime', 98)">
+                        <span class="discount-tag">-₦2</span>
+                        <b>₦100</b><br>Pay ₦98
+                    </div>
+                    <div class="plan-btn" onclick="selectPlan(this, 200, '₦200 Airtime', 196)">
+                        <span class="discount-tag">-₦4</span>
+                        <b>₦200</b><br>Pay ₦196
+                    </div>
+                    <div class="plan-btn" onclick="selectPlan(this, 500, '₦500 Airtime', 490)">
+                        <span class="discount-tag">-₦10</span>
+                        <b>₦500</b><br>Pay ₦490
+                    </div>
+                    <div class="plan-btn" onclick="selectPlan(this, 1000, '₦1000 Airtime', 980)">
+                        <span class="discount-tag">-₦20</span>
+                        <b>₦1000</b><br>Pay ₦980
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn btn-green" style="margin-top:20px;" onclick="confirmTransaction('Bill')">Purchase Now</button>
+        </div>
+    </div>
+
+    <div id="game" class="section">
+        <div class="card" style="background: #eef2ff; border: 1px solid #c7d2fe; padding: 15px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+            <span style="font-weight: bold; color: var(--primary);">Game Coins 🪙</span>
+            <span id="game-bal" style="font-size: 1.2rem; font-weight: 900; color: var(--dark);">0.00</span>
+        </div>
+
+        <button id="daily-btn" class="btn btn-primary" style="margin-bottom: 20px;" onclick="claimDaily()">🎁 Claim Daily Reward (5.00 Coins)</button>
+        <p id="timer-text" style="text-align:center; font-size:0.7rem; color:var(--gray); margin-top:-15px; margin-bottom:15px;"></p>
+
+        <div class="card" style="padding: 10px; background: #f1f5f9;">
+            <div style="display:flex; justify-content:space-between; padding: 10px; font-weight:800; font-size: 0.9rem;">
+                <span>Score: <span id="score" style="color:var(--opay-green)">0</span></span>
+                <span id="lvl-display" style="color:var(--primary)">Level 1</span>
+            </div>
+            <canvas id="game-canvas" width="300" height="400"></canvas>
+            <button id="start" class="btn btn-primary" style="margin-top:15px;" onclick="startGame()">Start Race</button>
+            
+            <div class="game-ctrls">
+                <button class="ctrl-btn" onmousedown="moveLeft()" onmouseup="stopMove()" ontouchstart="moveLeft()" ontouchend="stopMove()">◀</button>
+                <button class="ctrl-btn" onmousedown="moveRight()" onmouseup="stopMove()" ontouchstart="moveRight()" ontouchend="stopMove()">▶</button>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>Vehicle Shop (Use Coins)</h3>
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                <div class="plan-btn selected" id="shop-free" onclick="buyCar('free', 0)">🚙<br><b>Sedan</b><br>FREE</div>
+                <div class="plan-btn" id="shop-suv" onclick="buyCar('suv', 50)">🚔<br><b>Police SUV</b><br>50 Coins</div>
+                <div class="plan-btn" id="shop-speed" onclick="buyCar('speed', 200)">🏎️<br><b>Speedster</b><br>200 Coins</div>
+                <div class="plan-btn" id="shop-gold" onclick="buyCar('gold', 1000)">🚀<br><b>Danny Gold</b><br>1000 Coins</div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div id="receipt-overlay">
+    <div class="receipt">
+        <div style="text-align:center; margin-bottom:20px;">
+            <div style="width:50px; height:50px; background:var(--opay-green); color:white; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 10px; font-size:24px;">✓</div>
+            <h3 id="receipt-title" style="color:var(--opay-green)">Success</h3>
+            <h1 id="r-amount" style="font-size:2rem; margin:10px 0;"></h1>
+        </div>
+        <div id="receipt-details"></div>
+        <button class="btn btn-green" style="margin-top:20px;" onclick="closeReceipt()">Done</button>
+    </div>
+</div>
+
+<script>
+    // INITIALIZATION
+    window.onload = () => {
+        setTimeout(() => {
+            document.getElementById('splash').style.opacity = '0';
+            setTimeout(() => document.getElementById('splash').style.display = 'none', 800);
+        }, 1500);
+        checkDailyStatus();
+        loadRebuy();
+        updateUI();
+    };
+
+    let balance = 5000.00;
+    let gameBalance = 0.00; 
+    let weeklySpend = 0;
+    let selectedPlanPrice = 0;
+    let selectedPlanName = "";
+    let discountedPrice = 0;
+    let activeCar = 'free';
+    let lastPurchase = JSON.parse(localStorage.getItem('lastPurchase')) || null;
+
+    const banks = ["Access Bank", "First Bank", "GTBank", "Kuda MFB", "Moniepoint", "OPay", "Palmpay", "UBA", "Zenith Bank"];
+
+    function showSection(id) {
+        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+        document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        document.getElementById('tab-' + id).classList.add('active');
+    }
+
+    function confirmTransaction(type) {
+        let msg = type === 'Transfer' ? "Are you sure you want to send this money?" : "Are you sure you want to buy this plan?";
+        if(confirm(msg)) {
+            if(type === 'Transfer') processTransaction('Transfer');
+            else handleBillPurchase();
+        }
+    }
+
+    function checkDailyStatus() {
+        const lastClaim = localStorage.getItem('lastClaimTime');
+        const btn = document.getElementById('daily-btn');
+        const txt = document.getElementById('timer-text');
+        
+        if (lastClaim) {
+            const now = Date.now();
+            const diff = now - parseInt(lastClaim);
+            const timeLeft = (24 * 60 * 60 * 1000) - diff;
+
+            if (timeLeft > 0) {
+                btn.disabled = true;
+                btn.classList.add('btn-disabled');
+                const hours = Math.floor(timeLeft / 3600000);
+                const mins = Math.floor((timeLeft % 3600000) / 60000);
+                txt.innerText = `Come back in ${hours}h ${mins}m`;
+                return;
+            }
+        }
+        btn.disabled = false;
+        btn.classList.remove('btn-disabled');
+        txt.innerText = "Ready to claim!";
+    }
+
+    function claimDaily() {
+        gameBalance += 5; 
+        localStorage.setItem('lastClaimTime', Date.now().toString());
+        checkDailyStatus();
+        updateUI();
+        alert("5.00 Coins added to Game Account!");
+    }
+
+    function openAddMoney() {
+        const today = new Date().toDateString();
+        if(localStorage.getItem('lastFund') === today) return alert("Daily limit reached!");
+        
+        let amt = prompt("Amount to fund (Max ₦1500):");
+        amt = parseFloat(amt);
+        if(amt > 0 && amt <= 1500) {
+            balance += amt;
+            localStorage.setItem('lastFund', today);
+            updateUI();
+            alert("Bank Funding Success!");
+        }
+    }
+
+    function filterBanks() {
+        const input = document.getElementById('bank-input').value.toLowerCase();
+        const results = document.getElementById('bank-results');
+        results.innerHTML = "";
+        if(!input) { results.style.display = 'none'; return; }
+        const filtered = banks.filter(b => b.toLowerCase().includes(input));
+        filtered.forEach(bank => {
+            const div = document.createElement('div');
+            div.className = "search-item";
+            div.innerText = bank;
+            div.onclick = () => {
+                document.getElementById('bank-input').value = bank;
+                results.style.display = 'none';
+            };
+            results.appendChild(div);
+        });
+        results.style.display = 'block';
+    }
+
+    function toggleBillType() {
+        const type = document.getElementById('bill-type').value;
+        document.getElementById('data-plan-container').style.display = type === 'Data' ? 'block' : 'none';
+        document.getElementById('airtime-container').style.display = type === 'Airtime' ? 'block' : 'none';
+        selectedPlanPrice = 0;
+        document.querySelectorAll('.plan-btn').forEach(b => b.classList.remove('selected'));
+    }
+
+    function selectPlan(el, originalPrice, name, actualCharge) {
+        document.querySelectorAll('.plan-btn').forEach(b => b.classList.remove('selected'));
+        el.classList.add('selected');
+        selectedPlanPrice = originalPrice;
+        selectedPlanName = name;
+        discountedPrice = actualCharge;
+    }
+
+    function handleBillPurchase() {
+        const phone = document.getElementById('phone-number').value;
+        if(!phone || phone.length < 10 || selectedPlanPrice === 0) return alert("Select plan and enter phone");
+        if(discountedPrice > balance) return alert("Insufficient Balance");
+
+        processTransaction(document.getElementById('bill-type').value, {
+            amt: selectedPlanPrice, 
+            charge: discountedPrice,
+            phone: phone, 
+            name: selectedPlanName
+        });
+    }
+
+    function loadRebuy() {
+        if(lastPurchase) {
+            document.getElementById('rebuy-section').style.display = 'block';
+            document.getElementById('last-plan-text').innerText = `${lastPurchase.name} (${lastPurchase.phone})`;
+        }
+    }
+
+    function rebuyLast() {
+        if(lastPurchase.charge > balance) return alert("Insufficient balance");
+        processTransaction(lastPurchase.type, lastPurchase);
+    }
+
+    function processTransaction(type, data = null) {
+        let chargeAmt, displayAmt, detailsHTML;
+        const txID = "DP-" + Math.random().toString(36).substr(2, 9).toUpperCase();
+        const now = new Date();
+        const dateStr = now.toLocaleDateString();
+        const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+        if (type === 'Transfer') {
+            const name = document.getElementById('target-name').value;
+            const bank = document.getElementById('bank-input').value;
+            displayAmt = parseFloat(document.getElementById('trf-amount').value);
+            chargeAmt = displayAmt;
+            if(!name || !bank || isNaN(chargeAmt)) return alert("Fill details");
+            detailsHTML = `
+                <div class="r-row"><span class="r-label">To</span><span class="r-value">${name}</span></div>
+                <div class="r-row"><span class="r-label">Bank</span><span class="r-value">${bank}</span></div>`;
+        } else {
+            displayAmt = data.amt;
+            chargeAmt = data.charge;
+            detailsHTML = `
+                <div class="r-row"><span class="r-label">Phone</span><span class="r-value">${data.phone}</span></div>
+                <div class="r-row"><span class="r-label">Plan</span><span class="r-value">${data.name}</span></div>`;
+            lastPurchase = {type, amt: data.amt, charge: data.charge, phone: data.phone, name: data.name};
+            localStorage.setItem('lastPurchase', JSON.stringify(lastPurchase));
+        }
+
+        balance -= chargeAmt;
+        weeklySpend += chargeAmt;
+        updateUI();
+        loadRebuy();
+
+        // Detailed Receipt Generation
+        const fullReceipt = `
+            ${detailsHTML}
+            <div class="r-row"><span class="r-label">Date</span><span class="r-value">${dateStr}</span></div>
+            <div class="r-row"><span class="r-label">Time</span><span class="r-value">${timeStr}</span></div>
+            <div class="r-row"><span class="r-label">Transaction Ref</span><span class="r-value">${txID}</span></div>
+            <div class="r-row"><span class="r-label">Status</span><span class="r-value" style="color:var(--opay-green)">Successful</span></div>
+        `;
+
+        document.getElementById('receipt-title').innerText = `${type} Successful`;
+        document.getElementById('r-amount').innerText = `₦${displayAmt.toLocaleString()}`;
+        document.getElementById('receipt-details').innerHTML = fullReceipt;
+        document.getElementById('receipt-overlay').style.display = 'flex';
+
+        document.getElementById('recent-receipt-card').style.display = 'block';
+        document.getElementById('home-receipt-content').innerHTML = `
+            <div style="padding: 10px; background: #f8fafc; border-radius: 12px; border: 1px solid #edf2f7;">
+                <p style="font-weight: 800; color: var(--opay-green); margin-bottom: 8px;">${type} - ₦${displayAmt.toLocaleString()}</p>
+                <div style="font-size: 0.75rem; color: var(--gray);">${fullReceipt}</div>
+            </div>
+        `;
+    }
+
+    function closeReceipt() { document.getElementById('receipt-overlay').style.display = 'none'; showSection('home'); }
+
+    function updateUI() {
+        document.getElementById('bal').innerText = `₦${balance.toLocaleString(undefined, {minimumFractionDigits:2})}`;
+        document.getElementById('game-bal').innerText = gameBalance.toFixed(2);
+        document.getElementById('weekly-spend').innerText = weeklySpend.toLocaleString();
+        let p = Math.min(Math.floor((weeklySpend / 10000) * 100), 100);
+        document.getElementById('data-chart-val').innerText = p + "%";
+    }
+
+    function buyCar(car, price) {
+        if(activeCar === car) return alert("Already active!");
+        if(price > gameBalance) return alert("Not enough Coins in Game Account!");
+        gameBalance -= price;
+        activeCar = car;
+        document.querySelectorAll('#game .plan-btn').forEach(b => b.classList.remove('selected'));
+        document.getElementById('shop-' + car).classList.add('selected');
+        updateUI();
+        alert(car.toUpperCase() + " is now active!");
+    }
+
+    // GAME ENGINE
+    const canvas = document.getElementById('game-canvas');
+    const ctx = canvas.getContext('2d');
+    let carX = 135;
+    let obs = [];
+    let gameRunning = false;
+    let score = 0;
+    let moveDir = 0;
+    let gameLevel = 1;
+    const enemyColors = ["#E2E8F0", "#BAE6FD", "#BBF7D0", "#FEF08A"];
+
+    function startGame() {
+        if(gameRunning) return;
+        score = 0; obs = []; carX = 135; gameRunning = true; gameLevel = 1;
+        document.getElementById('lvl-display').innerText = "Level 1";
+        document.getElementById('start').style.display = 'none';
+        loop();
+    }
+
+    function drawCar(x, y, type, isEnemy = false, enemyColor = "#334155") {
+        let color = "#3b82f6";
+        if(type === 'suv') color = "#1e293b";
+        if(type === 'speed') color = "#ef4444";
+        if(type === 'gold') color = "#fbbf24";
+        if(isEnemy) color = enemyColor;
+
+        ctx.fillStyle = color;
+        ctx.fillRect(x, y, 30, 55); 
+        
+        // Headlights with Glow
+        ctx.shadowBlur = 12;
+        ctx.fillStyle = "#FFFBEB"; 
+        if(isEnemy) {
+            ctx.shadowColor = "rgba(255, 255, 200, 0.8)";
+            ctx.fillRect(x+2, y+50, 6, 4); ctx.fillRect(x+22, y+50, 6, 4);
+        } else {
+            ctx.shadowColor = "rgba(255, 255, 255, 0.9)";
+            ctx.fillRect(x+2, y-2, 6, 4); ctx.fillRect(x+22, y-2, 6, 4);
+        }
+        ctx.shadowBlur = 0;
+        
+        ctx.fillStyle = "#333"; 
+        ctx.fillRect(x+4, isEnemy ? y+30 : y+10, 22, 12);
+    }
+
+    function loop() {
+        if(!gameRunning) return;
+        ctx.clearRect(0, 0, 300, 400);
+
+        ctx.setLineDash([15, 15]); ctx.strokeStyle = "rgba(255,255,255,0.3)";
+        ctx.beginPath(); ctx.moveTo(100, 0); ctx.lineTo(100, 400); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(200, 0); ctx.lineTo(200, 400); ctx.stroke();
+
+        if(moveDir === -1 && carX > 5) carX -= 5;
+        if(moveDir === 1 && carX < 265) carX += 5;
+
+        drawCar(carX, 320, activeCar);
+
+        let newLvl = Math.floor(score / 25) + 1;
+        if(newLvl > gameLevel) {
+            gameLevel = newLvl;
+            document.getElementById('lvl-display').innerText = "Level " + gameLevel;
+        }
+
+        if(Math.random() < (0.02 + (gameLevel * 0.01))) {
+            obs.push({ 
+                x: Math.random()*260, 
+                y: -60, 
+                color: enemyColors[Math.floor(Math.random() * enemyColors.length)] 
+            });
+        }
+        
+        obs.forEach((o, i) => {
+            o.y += 4 + gameLevel; 
+            drawCar(o.x, o.y, 'enemy', true, o.color);
+
+            if(carX < o.x + 30 && carX + 30 > o.x && 320 < o.y + 55 && 375 > o.y) {
+                gameRunning = false;
+                document.getElementById('start').style.display = 'block';
+                let reward = (score * 0.05);
+                gameBalance += reward; 
+                updateUI();
+                alert(`Crash! You earned ${reward.toFixed(2)} Coins`);
+            }
+            if(o.y > 400) { obs.splice(i, 1); score++; document.getElementById('score').innerText = score; }
+        });
+        requestAnimationFrame(loop);
+    }
+
+    function moveLeft() { moveDir = -1; }
+    function moveRight() { moveDir = 1; }
+    function stopMove() { moveDir = 0; }
+
+    window.addEventListener('keydown', e => {
+        if(e.key === "ArrowLeft") moveLeft();
+        if(e.key === "ArrowRight") moveRight();
+    });
+    window.addEventListener('keyup', stopMove);
+</script>
+</body>
+</html>
