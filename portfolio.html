@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Portfolio — Your Name</title>
+  <meta name="description" content="Portfolio of Your Name — Front-end Developer & Designer. Showcasing projects, skills and contact information." />
+  <link href="botstrap.min.css" rel="stylesheet">
+  <link href="font-Awesome.min.css" rel="stylesheet">
+  <style>
+    :root{
+      --brand:#0d6efd;
+      --muted:#6c757d;
+      --bg:#f8f9fb;
+      --radius:.6rem;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    body { background: var(--bg); color:#212529; }
+    .hero { background: linear-gradient(120deg, rgba(13,110,253,0.92), rgba(32,201,151,0.85)); color: #fff; }
+    .card { border-radius: var(--radius); box-shadow: 0 6px 18px rgba(14,30,37,0.06); }
+    .project-thumb { height:160px; object-fit:cover; border-radius: .4rem; }
+    .skill-pill { background:#fff; border-radius:999px; padding:.3rem .6rem; box-shadow: 0 2px 6px rgba(0,0,0,0.05); margin:.2rem; display:inline-block; }
+    .filter-btn.active { box-shadow: 0 4px 14px rgba(13,110,253,0.16); }
+    .visually-hidden { position: absolute !important; height:1px; width:1px; overflow:hidden; clip: rect(1px,1px,1px,1px); white-space:nowrap; }
+    footer { background:#0b1220; color:#c9d6e3; }
+    @media (max-width:576px){ .project-thumb { height:120px; } }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+  <div class="container">
+    <a class="navbar-brand d-flex align-items-center gap-2" href="#">
+      <i class="fa-solid fa-capsules text-primary" style="font-size:1.4rem"></i>
+      <span class="fw-bold">Your Name</span>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="nav">
+      <ul class="navbar-nav ms-auto align-items-lg-center">
+        <li class="nav-item"><a class="nav-link" href="#works">Works</a></li>
+        <li class="nav-item"><a class="nav-link" href="#skills">Skills</a></li>
+        <li class="nav-item"><a class="nav-link" href="#testimonials">Testimonials</a></li>
+        <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+        <li class="nav-item ms-2"><a class="btn btn-outline-primary btn-sm" href="resume.pdf" download>Download Resume</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero py-5">
+  <div class="container">
+    <div class="row align-items-center gy-4">
+      <div class="col-lg-6 text-white">
+        <h1 class="display-5 fw-bold">Hi, I'm Your Name — Front-end Developer & Designer</h1>
+        <p class="lead mb-4">I build accessible, responsive web experiences and dashboards for healthcare and SaaS products. I focus on clarity, performance and strong UX.</p>
+        <div class="d-flex gap-2">
+          <a class="btn btn-light btn-lg" href="#works">See my work</a>
+          <a class="btn btn-outline-light btn-lg" href="#contact">Contact me</a>
+        </div>
+        <div class="mt-4 small text-white-75">
+          <i class="fa-solid fa-check me-1"></i> Clean UI & responsive layouts &nbsp;
+          <i class="fa-solid fa-code ms-3 me-1"></i> HTML, CSS, JS, PHP
+        </div>
+      </div>
+      <div class="col-lg-6 text-center">
+        <img src="me.jpg" alt="Your portrait" class="img-fluid rounded shadow" style="max-height:320px; object-fit:cover;" onerror="this.style.display='none'">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INTRO + CTA -->
+<section class="py-5">
+  <div class="container">
+    <div class="row g-4 align-items-center">
+      <div class="col-md-7">
+        <h2 class="h4">About me</h2>
+        <p class="text-muted">I design and implement user-centred interfaces and full-stack web features. I have experience with responsive design, accessibility (a11y), performance optimization and integrating front-end code with PHP backends and REST APIs.</p>
+        <ul class="list-unstyled small text-muted">
+          <li><i class="fa-solid fa-briefcase me-2 text-primary"></i> 5+ years building web apps</li>
+          <li><i class="fa-solid fa-flask me-2 text-primary"></i> Familiar with R&D and healthcare domain UIs</li>
+          <li><i class="fa-solid fa-globe me-2 text-primary"></i> Performance-minded, SEO-friendly markup</li>
+        </ul>
+      </div>
+      <div class="col-md-5">
+        <div class="card p-3">
+          <h5 class="mb-2">Quick facts</h5>
+          <div class="small text-muted">
+            <p class="mb-1"><strong>Location:</strong> Your City</p>
+            <p class="mb-1"><strong>Email:</strong> <a id="emailLink" href="mailto:you@example.com">you@example.com</a></p>
+            <p class="mb-0"><strong>Available for:</strong> Freelance, Contract, Full-time</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Skills -->
+<section id="skills" class="py-4 bg-white">
+  <div class="container">
+    <h3 class="h5 mb-3">Skills & Tools</h3>
+    <div class="mb-3">
+      <span class="skill-pill">HTML</span><span class="skill-pill">CSS / SCSS</span><span class="skill-pill">JavaScript</span>
+      <span class="skill-pill">Bootstrap</span><span class="skill-pill">React (optional)</span><span class="skill-pill">PHP & MySQL</span>
+    </div>
+    <div class="row g-3">
+      <div class="col-md-6">
+        <div class="card p-3">
+          <h6 class="mb-2">Design & UX</h6>
+          <p class="small text-muted mb-0">Wireframes, prototyping, visual hierarchy, accessibility checks (contrast, keyboard nav).</p>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card p-3">
+          <h6 class="mb-2">Frontend Engineering</h6>
+          <p class="small text-muted mb-0">Component-driven design, responsive layouts, performance tuning, progressive enhancement.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WORKS / PROJECTS -->
+<section id="works" class="py-5">
+  <div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h3 class="h5 mb-0">Selected Projects</h3>
+      <div>
+        <div class="btn-group" role="group" aria-label="Filter projects" id="filters">
+          <button class="btn btn-outline-secondary filter-btn active" data-filter="all">All</button>
+          <button class="btn btn-outline-secondary filter-btn" data-filter="web">Web</button>
+          <button class="btn btn-outline-secondary filter-btn" data-filter="ui">WEB</button>
+          <button class="btn btn-outline-secondary filter-btn" data-filter="backend">Backend</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="row g-3" id="projectsGrid" aria-live="polite">
+      <!-- Project cards are injected by JS for easy editing -->
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials -->
+<section id="testimonials" class="py-4 bg-white">
+  <div class="container">
+    <h3 class="h5 mb-3">Testimonials</h3>
+    <div class="row g-3">
+      <div class="col-md-4">
+        <div class="card p-3">
+          <p class="mb-1">"Delivered a polished dashboard quickly. Great communication." — <strong>Product Manager</strong></p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card p-3">
+          <p class="mb-1">"Professional, detail-oriented developer who understands UI." — <strong>self created</strong></p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card p-3">
+          <p class="mb-1">"Reliable and fast. Integrated front-end with our PHP backend seamlessly." — <strong>self employed</strong></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="py-5">
+  <div class="container">
+    <h3 class="h5 mb-3">Contact</h3>
+    <div class="row">
+      <div class="col-md-6">
+        <form id="contactForm" class="card p-3" action="https://formspree.io/#:~:text=https%3A//formspree.io/f/%7Bform_id%7D%22%20method%3D%22post" method="post">
+          <div class="mb-3">
+            <label for="name" class="form-label">Your name</label>
+            <input id="name" name="name" class="form-control" required>
+            <div class="invalid-feedback">Please enter your name.</div>
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input id="email" name="email" type="email" class="form-control" required>
+            <div class="invalid-feedback">Please enter a valid email.</div>
+          </div>
+          <div class="mb-3">
+            <label for="message" class="form-label">Message</label>
+            <textarea id="message" name="message" rows="5" class="form-control" required></textarea>
+            <div class="invalid-feedback">Please include a message.</div>
+          </div>
+          <div class="d-flex gap-2">
+            <button class="btn btn-primary" type="submit">Send message</button>
+            <button class="btn btn-outline-secondary" type="button" id="copyEmailBtn" title="Copy email to clipboard">Copy email</button>
+          </div>
+          <div id="formAlert" class="mt-3 visually-hidden" role="status"></div>
+        </form>
+      </div>
+
+      <div class="col-md-6">
+        <div class="card p-3">
+          <h6 class="mb-2">Let's build something</h6>
+          <p class="small text-muted">Share the scope and timeline and I'll get back with a plan.</p>
+          <p class="mb-0"><strong>Email:</strong> <a href="mailto:digwe248@gmail.com">my email-link.com</a></p>
+          <p><strong>Phone:</strong> <a href="tel:+234 07068277192"> 234 7068277192</a></p>
+          <p class="small text-muted mb-0">Or download my resume: <a href="resume.pdf" download>resume.pdf</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="py-4 mt-4">
+  <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center">
+    <div class="small">&copy; <span id="year"></span> DANNY</div>
+    <div>
+      <a class="text-decoration-none text-light small me-3" href="https://github.com/danny247yz "><i class="fa-brands fa-github me-1"></i>GitHub</a>
+      <a class="text-decoration-none text-light small" href="https://www.linkedin.com/in/igwe-destiny-059447306?utm_source=share&amp;utm_campaign=share_via&amp;utm_content=profile&amp;utm_medium=android_app"><i class="fa-brands fa-linkedin me-1"></i>LinkedIn</a>
+    </div>
+  </div>
+</footer>
+
+<!-- Project Detail Modal -->
+<div class="modal fade" id="projectModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 id="projectModalTitle" class="modal-title"></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="projectModalBody"></div>
+      <div class="modal-footer">
+        <a id="projectLive" class="btn btn-primary" target="_blank" rel="noopener">View live</a>
+        <a id="projectRepo" class="btn btn-outline-secondary" target="_blank" rel="noopener">Repo</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="bootstrap.bundel.min.js"></script>
+<script>
+  // Projects data — edit or extend these entries
+  const projects = [
+    {
+      id: 'p1',
+      title: 'danny app',
+      category: 'web',
+      image: 'danny app.jpg',
+      short: 'live banking demo app responsive with little gaming experienc of fun.',
+      description: '<p>built with html, javascript and css, maintained with layout ui graphics for smooth gaming graphics.</p>',
+      live: 'danny-pay.html',
+      repo: 'danny-pay.html'
+    },
+    {
+      id: 'p2',
+      title: 'green value uni',
+      category: 'web',
+      image: 'bedroom.jpg',
+      short: 'Design a demo of a university form portal.',
+      description: '<p>system implemented in responsive HTML/CSS with accessibility improvements of a university form portal.</p>',
+      live: 'uniportal.html',
+      repo: 'uniportal.html'
+    },
+    {
+      id: 'p3',
+      title: 'Inventory API (PHP)',
+      category: 'backend',
+      image: 'distribution.jpg',
+      short: 'Secure PHP API for inventory and order management.',
+      description: '<p>REST endpoints with token-based auth, pagination and prepared statements for SQL safety.</p>',
+      live: '#',
+      repo: '#'
+    }
+  ];
+
+  // Render projects
+  const projectsGrid = document.getElementById('projectsGrid');
+  function renderProjects(filter='all') {
+    projectsGrid.innerHTML = '';
+    const visible = projects.filter(p => filter === 'all' ? true : p.category === filter);
+    if (visible.length === 0) {
+      projectsGrid.innerHTML = '<div class="col-12"><div class="card p-3 text-center text-muted">No projects found.</div></div>';
+      return;
+    }
+    visible.forEach(p => {
+      const col = document.createElement('div');
+      col.className = 'col-sm-6 col-lg-4';
+      col.innerHTML = `
+        <article class="card h-100">
+          <img src="${p.image}" alt="${p.title}" class="project-thumb card-img-top" onerror="this.style.objectFit='cover'">
+          <div class="card-body d-flex flex-column">
+            <h5 class="h6 mb-1">${p.title}</h5>
+            <div class="small text-muted mb-2">${p.short}</div>
+            <div class="mt-auto d-flex justify-content-between align-items-center">
+              <div class="small text-muted text-capitalize">${p.category}</div>
+              <div>
+                <button class="btn btn-sm btn-outline-primary view-btn" data-id="${p.id}">Details</button>
+                <a class="btn btn-sm btn-primary ms-1" href="${p.live}" target="_blank" rel="noopener">Live</a>
+              </div>
+            </div>
+          </div>
+        </article>
+      `;
+      projectsGrid.appendChild(col);
+    });
+    // attach handlers
+    document.querySelectorAll('.view-btn').forEach(btn => btn.addEventListener('click', e => {
+      const id = btn.dataset.id;
+      openProjectModal(id);
+    }));
+  }
+
+  // Filters
+  document.querySelectorAll('#filters .filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('#filters .filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderProjects(btn.dataset.filter);
+    });
+  });
+
+  // Project modal
+  const projectModal = new bootstrap.Modal(document.getElementById('projectModal'));
+  function openProjectModal(id) {
+    const p = projects.find(x => x.id === id);
+    if (!p) return;
+    document.getElementById('projectModalTitle').textContent = p.title;
+    document.getElementById('projectModalBody').innerHTML = `
+      <img src="${p.image}" alt="${p.title}" class="img-fluid rounded mb-3" onerror="this.style.display='none'">
+      ${p.description}
+    `;
+    document.getElementById('projectLive').href = p.live || '#';
+    document.getElementById('projectRepo').href = p.repo || '#';
+    projectModal.show();
+  }
+
+  // Contact form (client-side only) — replace with server endpoint for production
+  const contactForm = document.getElementById('contactForm');
+  const formAlert = document.getElementById('formAlert');
+  contactForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    // simple validation
+    if (!contactForm.checkValidity()) {
+      contactForm.classList.add('was-validated');
+      return;
+    }
+    // Here you would POST to your server. For demo, show success message.
+    formAlert.classList.remove('visually-hidden','text-danger');
+    formAlert.classList.add('text-success');
+    formAlert.textContent = 'Message sent (demo). Replace with server call to send real messages.';
+    contactForm.reset();
+    contactForm.classList.remove('was-validated');
+    setTimeout(()=>formAlert.classList.add('visually-hidden'), 5000);
+  });
+
+  // Copy email to clipboard
+  document.getElementById('copyEmailBtn').addEventListener('click', async () => {
+    const email = 'you@example.com';
+    try {
+      await navigator.clipboard.writeText(email);
+      const b = document.getElementById('copyEmailBtn');
+      b.textContent = 'Copied!';
+      setTimeout(()=> b.textContent = 'Copy email', 2000);
+    } catch {
+      alert('Could not copy. Please copy manually: ' + email);
+    }
+  });
+
+  // Small helpers
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Initial render
+  renderProjects('all');
+
+  // Keyboard accessibility: open first project with Enter when focused
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') projectModal.hide();
+  });
+</script>
+</body>
+</html>
