@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Registration - Green Value University</title>
+    <link rel="stylesheet" href="sttt.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', Arial, sans-serif;
+            background: linear-gradient(120deg, #e0eafc, #cfdef3);
+            margin: 0;
+            padding: 0;
+             /* background-image: url(our-standard-rooms-are.jpg);
+            background-repeat: no-repeat;
+            background-size: cover;  */
+        }
+        #container {
+            max-width: 900px;
+            margin: 40px auto;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(44, 62, 80, 0.15);
+            overflow: hidden;
+        }
+        .pg {
+            display: none;
+            padding: 40px 32px;
+            min-height: 70vh;
+        }
+        .pg.active {
+            display: block;
+        }
+        h1, h2, h5 {
+            text-align: center;
+            margin-bottom: 16px;
+        }
+        h1 {
+            font-size: 2.2rem;
+            color: #2d7d46;
+        }
+        h2 {
+            color: #2d7d46;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+        label, b {
+            font-weight: 700;
+            color: #34495e;
+        }
+        input, button {
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #b2bec3;
+            font-size: 1rem;
+        }
+        input:focus {
+            outline: 2px solid #2d7d46;
+        }
+        button {
+            background: #2d7d46;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            transition: ease-in 0.2s;
+        }
+        button:hover {
+            background: #218c5b;
+        }
+        .nav-btns {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        fieldset {
+            border: 1px solid #b2bec3;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .form-container {
+            background: #f7f9fa;
+            border-radius: 12px;
+            padding: 32px;
+            box-shadow: 0 2px 8px rgba(44, 62, 80, 0.08);
+        }
+        .declaration-text {
+            background: #eafaf1;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+        @media (max-width: 600px) {
+            #container, .form-container {
+                padding: 10px;
+            }
+            .pg {
+                padding: 12px;
+            }
+        }
+        #term{color: red;}
+        #back{color: red;}
+    </style>
+</head>
+<body>
+    <div id="container">
+        <div id="pg1" class="pg active" style="background-color: #eafaf1;">
+            <form>
+                <h5>Page 1 | 4</h5>
+                <h1>WELCOME TO GREEN VALUE UNIVERSITY</h1>
+                <hr>
+                <h2>STUDENTS FORM - LOG IN</h2>
+                <label for="first">NAME:</label>
+                <input id="first" type="text" placeholder="Full name here" required>
+                <label for="score">Matric/Application number:</label>
+                <input id="score" type="tel" placeholder="Matric/Application number" required>
+                <label for="pass">PASSWORD:</label>
+                <input id="pass" type="password" placeholder="Password" required>
+                <div class="nav-btns">
+                    <button id="Forgot" type="button">Forgot Password?</button>
+                    <button id="next" type="button">Next</button>
+                </div>
+            </form>
+        </div>
+        <div id="pg1i" class="pg" style="background-color: #f9eaf3;">
+            <h5>Page 2 | 4</h5>
+            <form>
+                <h1>FORGOT PASSWORD</h1>
+                <label for="num">Matric number:</label>
+                <input id="num" type="tel" placeholder="Matric number">
+                <div class="nav-btns">
+                    <button id="fgot" type="button">Login</button>
+                    <button id="set" type="reset">Reset Password</button>
+                </div>
+            </form>
+        </div>
+        <div id="pg2" class="pg" style="background-color: #fceae4;">
+            <form>
+                <h1>COURSE REGISTRATION</h1>
+                <label for="program">Program of Study:</label>
+                <input id="program" type="text" required>
+                <label for="year">Year of Study:</label>
+                <input id="year" type="text" required>
+                <label for="advisor">Academic Advisor:</label>
+                <input id="advisor" type="text" required>
+                <h2>COURSE SELECTION</h2>
+               
+                <div class="nav-btns">
+                    <button id="previ" type="button">Previous</button>
+                    <button id="nex" type="button">Next</button>
+                </div>
+            </form>
+        </div>
+        <div id="pg3" class="pg" style="background-color: #eaf3fa;">
+            <form>
+                <fieldset style="background: rgb(255, 255, 255,0.6);backdrop-filter: blur(30px);-webkit-backdrop-filter: blur(30px);">
+                    <h1>ACCOMMODATION SECTION</h1>
+                    <h3>Hostel Apartment</h3>
+                    <div style="display: flex; gap: 24px; flex-wrap: wrap; justify-content: center;">
+                        <div style="background: #fff; border-radius: 12px; box-shadow: 0 2px 8px rgba(44,62,80,0.08); padding: 16px; width: 220px; text-align: center;">
+                            <img style="width: 100%; height: 120px; object-fit: cover; border-radius: 8px;" src="caption.jpg" alt="Hostel">
+                            <h4>Single Room</h4>
+                            <p>₦120,000 / semester</p>
+                            <input type="radio" name="room" value="Single Room"> Select
+                        </div>
+                        <div style="background: #fff; border-radius: 12px; box-shadow: 0 2px 8px rgba(44,62,80,0.08); padding: 16px; width: 220px; text-align: center;">
+                            <img style="width: 100%; height: 120px; object-fit: cover; border-radius: 8px;" src="apartment-15-hotel.jpg" alt="Apartment">
+                            <h4>Double Room</h4>
+                            <p>₦90,000 / semester</p>
+                            <input type="radio" name="room" value="Double Room"> Select
+                        </div>
+                        <div style="background: #fff; border-radius: 12px; box-shadow: 0 2px 8px rgba(44,62,80,0.08); padding: 16px; width: 220px; text-align: center;">
+                            <img style="width: 100%; height: 120px; object-fit: cover; border-radius: 8px;" src="bedroom.jpg" alt="Standard Room">
+                            <h4>Triple Room</h4>
+                            <p>₦70,000 / semester</p>
+                            <input type="radio" name="room" value="Triple Room"> Select
+                        </div>
+                    </div>
+                    <h2 style="margin-top:32px;">Building Type</h2>
+                    <div style="display: flex; gap: 24px; flex-wrap: wrap; justify-content: center;">
+                        <div style="background: #fff; border-radius: 12px; box-shadow: 0 2px 8px rgba(44,62,80,0.08); padding: 16px; width: 220px; text-align: center;">
+                            <h4>Co-ed Dorm</h4>
+                            <input type="radio" name="Dorm" value="Co-ed Dorm"> Select
+                        </div>
+                        <div style="background: #fff; border-radius: 12px; box-shadow: 0 2px 8px rgba(44,62,80,0.08); padding: 16px; width: 220px; text-align: center;">
+                            <h4>Single-gender Dorm</h4>
+                            <input type="radio" name="Dorm" value="Single-gender Dorm"> Select
+                        </div>
+                        <div style="background: #fff; border-radius: 12px; box-shadow: 0 2px 8px rgba(44,62,80,0.08); padding: 16px; width: 220px; text-align: center;">
+                            <h4>Apartment-style Housing</h4>
+                            <input type="radio" name="Dorm" value="Apartment-style Housing"> Select
+                        </div>
+                    </div>
+                    <h2 style="margin-top:32px;">Special Needs/Request</h2>
+                    <input type="text" id="specialNeeds" placeholder="Specify any special needs or requests" style="width: 100%; margin-bottom: 16px;">
+                    <h2>Meal Plan</h2>
+                    <div style="display: flex; gap: 24px; flex-wrap: wrap; justify-content: center;">
+                        <div style="background: #fff; border-radius: 12px; box-shadow: 0 2px 8px rgba(44,62,80,0.08); padding: 16px; width: 220px; text-align: center;">
+                            <h4>Plan A</h4>
+                            <p>19 meals/week</p>
+                            <p>₦40,000 / semester</p>
+                            <input type="radio" name="food" value="Plan A"> Select
+                        </div>
+                        <div style="background: #fff; border-radius: 12px; box-shadow: 0 2px 8px rgba(44,62,80,0.08); padding: 16px; width: 220px; text-align: center;">
+                            <h4>Plan B</h4>
+                            <p>14 meals/week</p>
+                            <p>₦30,000 / semester</p>
+                            <input type="radio" name="food" value="Plan B"> Select
+                        </div>
+                        <div style="background: #fff; border-radius: 12px; box-shadow: 0 2px 8px rgba(44,62,80,0.08); padding: 16px; width: 220px; text-align: center;">
+                            <h4>Plan C</h4>
+                            <p>10 meals/week</p>
+                            <p>₦20,000 / semester</p>
+                            <input type="radio" name="food" value="Plan C"> Select
+                        </div>
+                        <div style="background: #fff; border-radius: 12px; box-shadow: 0 2px 8px rgba(44,62,80,0.08); padding: 16px; width: 220px; text-align: center;">
+                            <h4>No Meal Plan</h4>
+                            <input type="radio" name="food" value="No Meal Plan"> Select
+                        </div>
+                    </div>
+                </fieldset>
+                <div class="nav-btns">
+                    <button class="Previously" type="button">Previous</button>
+                    <button class="next" type="button">Next</button>
+                </div>
+            </form>
+        </div>
+        <div id="pg4" class="pg" style="background-color: #eafaf1;">
+            <div class="form-container">
+                <h1>Declaration / Student Acknowledgement</h1>
+                <form>
+                    <label for="studentName">Student Name:</label>
+                    <input id="studentName" type="text" required>
+                    <label for="studentId">Student ID:</label>
+                    <input id="studentId" type="text" required>
+                    <label for="course">Course/Program:</label>
+                    <input id="course" type="text" required>
+                    <div class="declaration-text">
+                        <p>
+                            I hereby declare that the information provided above is true and correct to the best of my knowledge. I acknowledge that I have read and understood the university's rules and regulations, and I agree to abide by them during my period of study.
+                        </p>
+                    </div>
+                    <label for="signature">Signature:</label>
+                    <input id="signature" type="text" required>
+                    <label for="date">Date:</label>
+                    <input id="date" type="date" required>
+                    <p>Please note that there are <a id="term" type="button">terms and conditions</a> in this institution.</p>
+                    <div class="nav-btns">
+                        <button id="button" type="submit">Submit</button>
+                        <button id="pri" type="button">Previous</button>
+                        <button id="reset" type="reset">Reset</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div id="pg4i" class="pg" style="background-color: #eafaf1;">
+            <h1>University Terms and Conditions</h1>
+            <section>
+                <h2>1. Admission</h2>
+                <p>Admission to the university is subject to meeting the eligibility criteria and submission of required documents. The university reserves the right to accept or reject any application.</p>
+            </section>
+            <section>
+                <h2>2. Fees and Payment</h2>
+                <ul>
+                    <li>All fees must be paid by the specified deadlines.</li>
+                    <li>Late payments may incur additional charges or penalties.</li>
+                    <li>Fees are non-refundable except as stated in the university refund policy.</li>
+                </ul>
+            </section>
+            <section>
+                <h2>3. Academic Integrity</h2>
+                <ul>
+                    <li>Students must adhere to the university's code of conduct and academic honesty policies.</li>
+                    <li>Plagiarism, cheating, or any form of academic misconduct may result in disciplinary action.</li>
+                </ul>
+            </section>
+            <section>
+                <h2>4. Use of Facilities</h2>
+                <p>University facilities are to be used responsibly. Damage or misuse may result in penalties or loss of privileges.</p>
+            </section>
+            <section>
+                <h2>5. Privacy and Data Protection</h2>
+                <p>The university collects and processes personal data in accordance with applicable laws and its privacy policy.</p>
+            </section>
+            <section>
+                <h2>6. Changes to Terms</h2>
+                <p>The university reserves the right to modify these terms and conditions at any time. Changes will be communicated via official channels.</p>
+            </section>
+            <section>
+                <h2>7. Acceptance</h2>
+                <p>By enrolling at the university, you agree to abide by these terms and conditions.</p>
+            </section>
+            <a id="back" type="button">Back</a>
+        </div>
+    </div>
+    <script src="jquery-3.7.1.js"></script>
+    <script>
+        // Navigation logic
+        $(document).ready(function() {
+            function showPage(pageId) {
+                $('.pg').removeClass('active');
+                $(pageId).addClass('active');}
+            $('#next').click(function(){ showPage('#pg2'); 
+            });
+            $('#Forgot').click(function(){ showPage('#pg1i'); 
+            });
+            $('#fgot').click(function(){ showPage('#pg1');
+            });
+            $('#previ').click(function(){ showPage('#pg1'); 
+            });
+            $('#nex').click(function(){ showPage('#pg3');
+            });
+            $('.next').click(function(){ showPage('#pg4');
+            });
+            $('.Previously').click(function(){ showPage('#pg2');
+            });
+            $('#pri').click(function(){ showPage('#pg3'); 
+            });
+            $('#term').click(function(){ showPage('#pg4i');
+            });
+            $('#back').click(function(){ showPage('#pg4'); });
+        });
+    </script>
+</body>
+</html>
